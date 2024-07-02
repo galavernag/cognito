@@ -1,8 +1,8 @@
 import { Header } from "@/components/header";
 import { SchoolGrid, SchoolGridItem } from "@/components/school-grid";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, PlusIcon } from "@radix-ui/react-icons";
+import { schools } from "@/lib/data";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 export default function Home() {
   return (
@@ -23,94 +23,21 @@ export default function Home() {
               className="flex items-center gap-2"
             >
               <PlusIcon className="size-4" />
-              Adicionar uma nova escola
+              <span>Adicionar uma nova escola</span>
             </Button>
           </header>
 
           <SchoolGrid>
-            <SchoolGridItem
-              title="Escola 1"
-              amountOfStudents={200}
-              amountOfTeachers={300}
-              lastActivity={{
-                by: {
-                  name: "Guilherme Galaverna",
-                  avatar: "https://github.com/galavernag.png",
-                },
-                action: "Criou uma nova avaliação",
-              }}
-              slug="escola-1"
-            />
-
-            <SchoolGridItem
-              title="Escola 2"
-              amountOfStudents={200}
-              amountOfTeachers={300}
-              lastActivity={{
-                by: {
-                  name: "Guilherme Galaverna",
-                  avatar: "https://github.com/galavernag.png",
-                },
-                action: "Criou uma nova avaliação",
-              }}
-              slug="escola-1"
-            />
-
-            <SchoolGridItem
-              title="Escola 3"
-              amountOfStudents={200}
-              amountOfTeachers={300}
-              lastActivity={{
-                by: {
-                  name: "Guilherme Galaverna",
-                  avatar: "https://github.com/galavernag.png",
-                },
-                action: "Criou uma nova avaliação",
-              }}
-              slug="escola-1"
-            />
-
-            <SchoolGridItem
-              title="Escola 4"
-              amountOfStudents={200}
-              amountOfTeachers={300}
-              lastActivity={{
-                by: {
-                  name: "Guilherme Galaverna",
-                  avatar: "https://github.com/galavernag.png",
-                },
-                action: "Criou uma nova avaliação",
-              }}
-              slug="escola-1"
-            />
-
-            <SchoolGridItem
-              title="Escola 5"
-              amountOfStudents={200}
-              amountOfTeachers={300}
-              lastActivity={{
-                by: {
-                  name: "Guilherme Galaverna",
-                  avatar: "https://github.com/galavernag.png",
-                },
-                action: "Criou uma nova avaliação",
-              }}
-              slug="escola-1"
-            />
-
-            <SchoolGridItem
-              title="Escola 6"
-              amountOfStudents={200}
-              amountOfTeachers={300}
-              lastActivity={{
-                by: {
-                  name: "Guilherme Galaverna",
-                  avatar: "https://github.com/galavernag.png",
-                },
-                action: "Criou uma nova avaliação",
-              }}
-              slug="escola-1"
-            />
+            {schools.map(school => (
+              <SchoolGridItem
+                key={school.slug}
+                title={school.name}
+                amountOfStudents={school.amountOfStudents}
+                amountOfTeachers={school.amountOfTeacher}
+                lastActivity={school.lastActivity}
+                slug={school.slug}
+              />
+            ))}
           </SchoolGrid>
         </div>
         <aside>
