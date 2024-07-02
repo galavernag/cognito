@@ -18,16 +18,16 @@ export default function RootLayout({
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <link rel="shortcut icon" href="favicon.png" type="image/png" />
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <body className={cn(inter.className, "bg-zinc-950 text-zinc-100")}>
+      <body className={cn(inter.className, "bg-zinc-950 text-zinc-100")}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
