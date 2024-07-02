@@ -17,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <link rel="shortcut icon" href="favicon.png" type="image/png" />
-      <body className={cn(inter.className, "bg-zinc-950")}>{children}</body>
+      <body className={cn(inter.className, "bg-zinc-950 text-zinc-100")}>
+        {children}
+      </body>
     </html>
   );
 }
