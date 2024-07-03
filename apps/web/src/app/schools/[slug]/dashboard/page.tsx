@@ -89,7 +89,10 @@ export default function School({ params }: { params: { slug: string } }) {
               <TableCell>
                 <div className="flex gap-3 flex-wrap">
                   {test.assignedTo.map(schoolClass => (
-                    <span className="bg-zinc-900 py-1 px-2 rounded-md font-medium text-xs">
+                    <span
+                      key={schoolClass.toLowerCase()}
+                      className="bg-zinc-900 py-1 px-2 rounded-md font-medium text-xs"
+                    >
                       {schoolClass}
                     </span>
                   ))}
