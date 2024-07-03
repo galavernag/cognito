@@ -1,4 +1,4 @@
-import { TokenInterface } from "@/interfaces/token-service.interface";
+import { TokenInterface } from "@cognito/interfaces";
 import jwt from "jsonwebtoken";
 
 export class JwtService implements TokenInterface {

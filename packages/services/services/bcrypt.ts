@@ -1,4 +1,4 @@
-import { CryptoInterface } from "@/interfaces/crypto-service.interface";
+import { CryptoInterface } from "@cognito/interfaces";
 import bcrypt from "bcrypt";
 
 export class BcryptService implements CryptoInterface {

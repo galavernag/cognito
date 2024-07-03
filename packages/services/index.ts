@@ -1,3 +1,3 @@
 export * from "./services/auth";
-export * from "./services/bcrypt-service";
-export * from "./services/jwt-service";
+export * from "./services/bcrypt";
+export * from "./services/jwt";
