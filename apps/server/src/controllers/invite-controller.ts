@@ -1,8 +1,14 @@
-import { prisma } from "@/lib/prisma";
+import { InviteService } from "@cognito/services";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
 export class InviteController {
+  private inviteService: InviteService;
+
+  constructor(inviteServiceInstance: InviteService) {
+    this.inviteService = inviteServiceInstance;
+  }
+
   async createInvite(request: FastifyRequest, reply: FastifyReply) {
     try {
       const createInviteBodySchema = z.object({
@@ -13,24 +19,20 @@ export class InviteController {
       const { schoolId, expiresAt } = createInviteBodySchema.parse(
         request.body
       );
+      const userId = z.string().parse(request.userId);
 
-      const invite = await prisma.invite.create({
-        data: {
-          createdBy: {
-            connect: {
-              id: request.userId,
-            },
-          },
-          school: {
-            connect: {
-              id: schoolId,
-            },
-          },
-          expiresAt: new Date(expiresAt),
-        },
-      });
+      const response = await this.inviteService.createInvite(
+        userId,
+        schoolId,
+        new Date(expiresAt)
+      );
 
-      return reply.status(201).send({ message: "Created invite", invite });
+      if (response.error) {
+        return reply.status(400).send({ error: response.error });
+      }
+      return reply
+        .status(201)
+        .send({ message: "Created invite", invite: response.invite });
     } catch (error: any) {
       console.log(error);
       return reply.status(500).send({ error: error.message });
@@ -44,45 +46,14 @@ export class InviteController {
       });
 
       const { code } = useInviteParamsSchema.parse(request.params);
-      const invite = await prisma.invite.findFirst({
-        where: {
-          code,
-          expiresAt: {
-            gte: new Date(),
-          },
-          isUsed: {
-            not: true,
-          },
-        },
-      });
+      const userId = z.string().parse(request.userId);
 
-      if (!invite) {
-        return reply.status(404).send({ error: "Invite not found" });
+      const response = await this.inviteService.useInvite(userId, code);
+
+      if (response.error) {
+        return reply.status(400).send({ error: response.error });
       }
-
-      const updatedUser = await prisma.user.update({
-        where: {
-          id: request.userId,
-        },
-        data: {
-          schools: {
-            connect: {
-              id: invite.schoolId,
-            },
-          },
-        },
-      });
-
-      await prisma.invite.update({
-        where: {
-          id: invite.id,
-        },
-        data: {
-          isUsed: true,
-        },
-      });
-
-      return reply.status(200).send({ message: "Invite used" });
+      return reply.status(201).send({ message: response.message });
     } catch (error: any) {
       console.log(error);
       return reply.status(500).send({ error: error.message });
@@ -97,23 +68,12 @@ export class InviteController {
 
       const { code } = revokeInviteParamsSchema.parse(request.params);
 
-      const inviteToBeRevoked = await prisma.invite.findFirst({
-        where: {
-          code,
-        },
-      });
+      const response = await this.inviteService.revokeInvite(code);
 
-      if (!inviteToBeRevoked) {
-        return reply.status(404).send({ error: "Invite not found" });
+      if (response.error) {
+        return reply.status(400).send({ error: response.error });
       }
-
-      await prisma.invite.delete({
-        where: {
-          id: inviteToBeRevoked.id,
-        },
-      });
-
-      return reply.status(200).send({ message: "Invite revoked" });
+      return reply.status(201).send({ message: response.message });
     } catch (error: any) {
       console.log(error);
       return reply.status(500).send({ error: error.message });
