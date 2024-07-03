@@ -24,11 +24,11 @@ function Link({ title, href }: { title: string; href: string }) {
 }
 export function SettingsList() {
   return (
-    <aside className="">
-      <ul className="text-zinc-600 space-y-3">
-        <Link href="general" title="General" />
-        <Link href="billing" title="Billing" />
-        <Link href="general" title="General" />
+    <aside className="space-y-3">
+      <span className="text-sm font-medium">Configurações</span>
+      <ul className="text-zinc-600 space-y-3 border-t border-t-zinc-900 pt-3">
+        <Link href="general" title="Geral" />
+        <Link href="billing" title="Pagamento" />
       </ul>
     </aside>
   );
