@@ -18,7 +18,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  schools School[]
+  schools         School[]
+  created_invites Invite[]
 
   @@map("users")
 }
@@ -30,7 +31,27 @@ model School {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  invites Invite[]
+
   members User[]
 
   @@map("schools")
+}
+
+model Invite {
+  id   String @id @default(uuid())
+  code String @unique @default(cuid())
+
+  createdAt DateTime @default(now())
+  createdBy User     @relation(fields: [userId], references: [id])
+
+  expiresAt DateTime
+  isUsed    Boolean  @default(false)
+
+  userId String
+  school School @relation(fields: [schoolId], references: [id])
+
+  schoolId String
+
+  @@map("invites")
 }
