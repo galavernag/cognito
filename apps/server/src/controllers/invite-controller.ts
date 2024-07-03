@@ -36,4 +36,56 @@ export class InviteController {
       return reply.status(500).send({ error: error.message });
     }
   }
+
+  async useInvite(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const useInviteParamsSchema = z.object({
+        code: z.string().cuid(),
+      });
+
+      const { code } = useInviteParamsSchema.parse(request.params);
+      const invite = await prisma.invite.findFirst({
+        where: {
+          code,
+          expiresAt: {
+            gte: new Date(),
+          },
+          isUsed: {
+            not: true,
+          },
+        },
+      });
+
+      if (!invite) {
+        return reply.status(404).send({ error: "Invite not found" });
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: request.userId,
+        },
+        data: {
+          schools: {
+            connect: {
+              id: invite.schoolId,
+            },
+          },
+        },
+      });
+
+      await prisma.invite.update({
+        where: {
+          id: invite.id,
+        },
+        data: {
+          isUsed: true,
+        },
+      });
+
+      return reply.status(200).send({ updatedUser });
+    } catch (error: any) {
+      console.log(error);
+      return reply.status(500).send({ error: error.message });
+    }
+  }
 }

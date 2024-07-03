@@ -10,4 +10,10 @@ export default async function (fastify: FastifyInstance, options: object) {
     { preHandler: auth },
     inviteController.createInvite
   );
+
+  fastify.put(
+    "/invite/:code/use",
+    { preHandler: auth },
+    inviteController.useInvite
+  );
 }
