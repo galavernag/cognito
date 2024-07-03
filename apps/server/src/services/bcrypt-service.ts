@@ -1,7 +1,7 @@
-import { CryptoService } from "@/interfaces/crypto-service.interface";
+import { CryptoInterface } from "@/interfaces/crypto-service.interface";
 import bcrypt from "bcrypt";
 
-export class BcryptService implements CryptoService {
+export class BcryptService implements CryptoInterface {
   async hash(password: string, secret: number | string): Promise<string> {
     const rounds = Number(secret);
     const salt = await bcrypt.genSalt(rounds);

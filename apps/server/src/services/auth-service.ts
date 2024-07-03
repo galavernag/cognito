@@ -1,18 +1,22 @@
 import { PrismaClient } from "@cognito/database";
 import { z } from "zod";
 
-import { TokenService } from "@/interfaces/token-service.interface";
-import { CryptoService } from "@/interfaces/crypto-service.interface";
+import { TokenInterface } from "@/interfaces/token-service.interface";
+import { CryptoInterface } from "@/interfaces/crypto-service.interface";
 
 export default class AuthService {
   private prisma: PrismaClient;
-  private tokenService: TokenService;
-  private cryptoService: CryptoService;
+  private tokenService: TokenInterface;
+  private cryptoService: CryptoInterface;
 
   private cryptoSalt = process.env.BCRYPT_SALT!;
   private tokenSecret = process.env.JWT_SECRET!;
 
-  constructor(prisma: PrismaClient, jwt: TokenService, bcrypt: CryptoService) {
+  constructor(
+    prisma: PrismaClient,
+    jwt: TokenInterface,
+    bcrypt: CryptoInterface
+  ) {
     this.prisma = prisma;
 
     this.tokenService = jwt;
@@ -23,12 +27,6 @@ export default class AuthService {
     const data = { email, password };
 
     try {
-      const loginBodySchema = z.object({
-        email: z.string().email(),
-        password: z.string(),
-      });
-
-      const { email, password } = loginBodySchema.parse(data);
       const user = await this.prisma.user.findUnique({
         where: {
           email,
@@ -37,7 +35,7 @@ export default class AuthService {
 
       if (!user) {
         return {
-          message: "User not found",
+          error: "User not found",
         };
       }
 
@@ -48,7 +46,7 @@ export default class AuthService {
 
       if (!passwordMatch) {
         return {
-          message: "Password is incorrect",
+          error: "Password is incorrect",
         };
       }
 
@@ -71,13 +69,6 @@ export default class AuthService {
   async register(name: string, email: string, password: string) {
     const data = { name, email, password };
     try {
-      const registerBodySchema = z.object({
-        name: z.string(),
-        email: z.string().email(),
-        password: z.string(),
-      });
-
-      const { name, email, password } = registerBodySchema.parse(data);
       const user = await this.prisma.user.findUnique({
         where: {
           email,
@@ -86,7 +77,7 @@ export default class AuthService {
 
       if (user) {
         return {
-          message: "User already exists",
+          error: "User already exists",
         };
       }
 

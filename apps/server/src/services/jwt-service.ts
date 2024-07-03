@@ -1,7 +1,7 @@
-import { TokenService } from "@/interfaces/token-service.interface";
+import { TokenInterface } from "@/interfaces/token-service.interface";
 import jwt from "jsonwebtoken";
 
-export class JwtService implements TokenService {
+export class JwtService implements TokenInterface {
   sign(
     payload: string | object | Buffer,
     secretOrPrivateKey: string,

@@ -1,4 +1,4 @@
-export interface TokenService {
+export interface TokenInterface {
   sign(
     payload: string | object | Buffer,
     secretOrPrivateKey: string,
