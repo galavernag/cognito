@@ -2,6 +2,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { PropsWithChildren } from "react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface SchoolGridItemProps {
   title: string;
@@ -37,11 +38,11 @@ export function SchoolGridItem({
             <span>{amountOfTeachers} professores</span>
           </div>
         </div>
-        <a href={`/schools/${slug}/dashboard`}>
+        <Link href={`/schools/${slug}/dashboard`}>
           <Button variant="outline" size="icon">
             <ArrowRightIcon className="size-4" />
           </Button>
-        </a>
+        </Link>
       </header>
 
       <footer className="flex items-center gap-1 border-t text-xs px-5 py-3">
