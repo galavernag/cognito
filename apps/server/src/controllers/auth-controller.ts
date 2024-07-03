@@ -1,15 +1,34 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-import { z } from "zod";
+import AuthService from "@/services/auth-service";
 import { prisma } from "@/lib/prisma";
+import { JwtService } from "@/services/jwt-service";
+import { BcryptService } from "@/services/bcrypt-service";
 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
-const jwtSecret = process.env.JWT_SECRET!;
-const bcryptSalt = Number(process.env.BCRYPT_SALT);
+import z from "zod";
+import { TokenInterface } from "@/interfaces/token-service.interface";
+import { CryptoInterface } from "@/interfaces/crypto-service.interface";
 
 export class AuthController {
+  private tokenService: TokenInterface;
+  private cryptoService: CryptoInterface;
+  private authService: AuthService;
+
+  constructor() {
+    this.tokenService = new JwtService();
+    this.cryptoService = new BcryptService();
+
+    this.authService = new AuthService(
+      prisma,
+      this.tokenService,
+      this.cryptoService
+    );
+
+    // Amarra o contexto do 'this' aos métodos
+    this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
+  }
+
   async login(request: FastifyRequest, reply: FastifyReply) {
     try {
       const loginBodySchema = z.object({
@@ -18,33 +37,14 @@ export class AuthController {
       });
 
       const { email, password } = loginBodySchema.parse(request.body);
-      const user = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
 
-      if (!user) {
-        return reply.status(400).send({
-          message: "User not found",
-        });
+      const response = await this.authService.login(email, password);
+
+      if (response.error) {
+        return reply.status(400).send({ error: response.error });
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
-
-      if (!passwordMatch) {
-        return reply.status(400).send({
-          message: "Password is incorrect",
-        });
-      }
-
-      const token = jwt.sign({ userId: user.id }, jwtSecret, {
-        expiresIn: "7d",
-      });
-
-      return reply.status(200).send({
-        token,
-      });
+      return reply.status(200).send({ token: response.token });
     } catch (error: any) {
       return reply.status(500).send({ error: error.message });
     }
@@ -52,39 +52,20 @@ export class AuthController {
 
   async register(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const registerBodySchema = z.object({
+      const loginBodySchema = z.object({
         name: z.string(),
         email: z.string().email(),
         password: z.string(),
       });
 
-      const { name, email, password } = registerBodySchema.parse(request.body);
-      const user = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
+      const { name, email, password } = loginBodySchema.parse(request.body);
+      const response = await this.authService.register(name, email, password);
 
-      if (user) {
-        return reply.status(400).send({
-          message: "User already exists",
-        });
+      if (response.error) {
+        return reply.status(400).send({ error: response.error });
       }
 
-      const hashedPassword = await bcrypt.hash(password, bcryptSalt);
-      const newUser = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-        },
-      });
-      const token = jwt.sign({ userId: newUser.id }, jwtSecret, {
-        expiresIn: "7d",
-      });
-      return reply.status(201).send({
-        token,
-      });
+      return reply.status(200).send({ token: response.token });
     } catch (error: any) {
       return reply.status(500).send({ error: error.message });
     }
