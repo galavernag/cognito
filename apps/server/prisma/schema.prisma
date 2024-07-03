@@ -18,8 +18,12 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  schools         School[]
-  created_invites Invite[]
+  schools School[]
+
+  createdInvites  Invite[]
+  createdStudents Student[]
+  createdTests    Test[]
+  assignedGrades  Grade[]
 
   @@map("users")
 }
@@ -40,13 +44,17 @@ model School {
 }
 
 model Student {
-  id        String   @id @default(uuid())
-  name      String   @unique
+  id   String @id @default(uuid())
+  name String @unique
+
+  createdBy User   @relation(fields: [userId], references: [id])
+  userId    String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   classes Class[]
-  Grade   Grade[]
+  grades  Grade[]
 
   @@map("students")
 }
@@ -57,6 +65,9 @@ model Test {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  createdBY User?   @relation(fields: [userId], references: [id])
+  userId    String?
 
   classes Class[]
   grades  Grade[]
@@ -76,6 +87,8 @@ model Grade {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  createdBy User     @relation(fields: [userId], references: [id])
+  userId    String
 
   @@map("grades")
 }
