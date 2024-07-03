@@ -12,7 +12,9 @@ interface LinkProps {
 
 function Link({ href, icon, title }: LinkProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const resource = href.split("/");
+
+  const isActive = pathname.includes(resource[3]);
 
   return (
     <NextLink
@@ -30,7 +32,7 @@ export function Subheader({ slug }: { slug: string }) {
   return (
     <header className="flex gap-3 px-32 items-center border-b border-zinc-800 pb-4">
       <Link
-        href={`/schools/${slug}`}
+        href={`/schools/${slug}/dashboard`}
         icon={<PiGridFourBold />}
         title="Dashboard"
       />
@@ -45,7 +47,7 @@ export function Subheader({ slug }: { slug: string }) {
         title="Alunos"
       />
       <Link
-        href={`/schools/${slug}/settings`}
+        href={`/schools/${slug}/settings/general`}
         icon={<PiGear />}
         title="Configurações"
       />
