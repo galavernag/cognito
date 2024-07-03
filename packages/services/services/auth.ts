@@ -5,8 +5,8 @@ import { CryptoInterface } from "@cognito/interfaces";
 
 export class AuthService {
   private prisma: PrismaClient;
-  private tokenService: TokenInterface;
-  private cryptoService: CryptoInterface;
+  public tokenService: TokenInterface;
+  public cryptoService: CryptoInterface;
 
   private cryptoSalt = process.env.BCRYPT_SALT!;
   private tokenSecret = process.env.JWT_SECRET!;
