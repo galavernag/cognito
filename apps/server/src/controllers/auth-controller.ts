@@ -1,13 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
+import { AuthService, JwtService, BcryptService } from "@cognito/services";
+import { TokenInterface, CryptoInterface } from "@cognito/interfaces/";
 
-import AuthService from "@/services/auth-service";
 import { prisma } from "@/lib/prisma";
-import { JwtService } from "@/services/jwt-service";
-import { BcryptService } from "@/services/bcrypt-service";
 
 import z from "zod";
-import { TokenInterface } from "@/interfaces/token-service.interface";
-import { CryptoInterface } from "@/interfaces/crypto-service.interface";
 
 export class AuthController {
   private tokenService: TokenInterface;
