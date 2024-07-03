@@ -7,19 +7,10 @@ import { prisma } from "@/lib/prisma";
 import z from "zod";
 
 export class AuthController {
-  private tokenService: TokenInterface;
-  private cryptoService: CryptoInterface;
   private authService: AuthService;
 
-  constructor() {
-    this.tokenService = new JwtService();
-    this.cryptoService = new BcryptService();
-
-    this.authService = new AuthService(
-      prisma,
-      this.tokenService,
-      this.cryptoService
-    );
+  constructor(authServiceInstance: AuthService) {
+    this.authService = authServiceInstance;
 
     // Amarra o contexto do 'this' aos métodos
     this.login = this.login.bind(this);
