@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 import { z } from "zod";
-import { prisma } from "@/services/prisma";
+import { prisma } from "@/lib/prisma";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "5.16.1",
+    "@cognito/database": "workspace:",
     "bcrypt": "^5.1.1",
     "fastify": "^4.28.1",
     "jsonwebtoken": "^9.0.2",

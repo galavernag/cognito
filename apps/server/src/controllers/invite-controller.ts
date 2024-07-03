@@ -1,4 +1,4 @@
-import { prisma } from "@/services/prisma";
+import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
