@@ -3,7 +3,7 @@ import { PrismaClient } from "@cognito/database";
 import { TokenInterface } from "@cognito/interfaces";
 import { CryptoInterface } from "@cognito/interfaces";
 
-export default class AuthService {
+export class AuthService {
   private prisma: PrismaClient;
   private tokenService: TokenInterface;
   private cryptoService: CryptoInterface;
