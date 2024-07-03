@@ -16,4 +16,10 @@ export default async function (fastify: FastifyInstance, options: object) {
     { preHandler: auth },
     inviteController.useInvite
   );
+
+  fastify.put(
+    "/invite/:code/revoke",
+    { preHandler: auth },
+    inviteController.revokeInvite
+  );
 }

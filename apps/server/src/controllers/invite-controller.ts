@@ -30,7 +30,7 @@ export class InviteController {
         },
       });
 
-      return reply.status(201).send({ invite });
+      return reply.status(201).send({ message: "Created invite", invite });
     } catch (error: any) {
       console.log(error);
       return reply.status(500).send({ error: error.message });
@@ -82,7 +82,38 @@ export class InviteController {
         },
       });
 
-      return reply.status(200).send({ updatedUser });
+      return reply.status(200).send({ message: "Invite used" });
+    } catch (error: any) {
+      console.log(error);
+      return reply.status(500).send({ error: error.message });
+    }
+  }
+
+  async revokeInvite(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const revokeInviteParamsSchema = z.object({
+        code: z.string().cuid(),
+      });
+
+      const { code } = revokeInviteParamsSchema.parse(request.params);
+
+      const inviteToBeRevoked = await prisma.invite.findFirst({
+        where: {
+          code,
+        },
+      });
+
+      if (!inviteToBeRevoked) {
+        return reply.status(404).send({ error: "Invite not found" });
+      }
+
+      await prisma.invite.delete({
+        where: {
+          id: inviteToBeRevoked.id,
+        },
+      });
+
+      return reply.status(200).send({ message: "Invite revoked" });
     } catch (error: any) {
       console.log(error);
       return reply.status(500).send({ error: error.message });
