@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function Header() {
   return (
     <header className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <Image width={30} src={CognitoLogo} alt="Logo Cognito" />
         <span className="font-medium text-zinc-300">Cognito</span>
       </div>
