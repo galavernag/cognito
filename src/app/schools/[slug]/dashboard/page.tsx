@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { recentTests } from "@/lib/data";
+import { tests } from "@/lib/data";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import {
@@ -82,7 +82,7 @@ export default function School({ params }: { params: { slug: string } }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {recentTests.map(test => (
+          {tests.map(test => (
             <TableRow key={test.id}>
               <TableCell className="font-medium">{test.id}</TableCell>
               <TableCell>{test.title}</TableCell>

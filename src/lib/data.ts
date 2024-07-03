@@ -1,3 +1,4 @@
+import { Test } from "@/types/Test";
 import { title } from "process";
 
 export const schools = [
@@ -55,7 +56,7 @@ export const schools = [
   },
 ];
 
-export const recentTests = [
+export const tests: Test[] = [
   {
     id: "TST001",
     title: "Avaliação 1",
@@ -70,7 +71,7 @@ export const recentTests = [
       "1°B EM",
       "1°C EM",
     ],
-    createdAt: new Date("2023-01-01"),
+    createdAt: "2023",
     createdBy: {
       name: "Guilherme Galaverna",
       avatar: "https://github.com/galavernag.png",
@@ -91,7 +92,7 @@ export const recentTests = [
       "1°B EM",
       "1°C EM",
     ],
-    createdAt: new Date("2023-01-01"),
+    createdAt: "2023",
     createdBy: {
       name: "Guilherme Galaverna",
       avatar: "https://github.com/galavernag.png",
@@ -112,7 +113,7 @@ export const recentTests = [
       "1°B EM",
       "1°C EM",
     ],
-    createdAt: new Date("2023-01-01"),
+    createdAt: "2023",
     createdBy: {
       name: "Guilherme Galaverna",
       avatar: "https://github.com/galavernag.png",
@@ -133,7 +134,7 @@ export const recentTests = [
       "1°B EM",
       "1°C EM",
     ],
-    createdAt: new Date("2023-01-01"),
+    createdAt: "2023",
     createdBy: {
       name: "Guilherme Galaverna",
       avatar: "https://github.com/galavernag.png",
