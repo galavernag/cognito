@@ -1,5 +1,5 @@
 {
-  "name": "cognito",
+  "name": "web",
   "version": "0.1.0",
   "packageManager": "pnpm@9.4.0",
   "private": true,
