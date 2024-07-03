@@ -1,7 +1,7 @@
 export interface Test {
   id: string;
   title: string;
-  assignedto: string[];
+  assignedTo: string[];
   createdAt: string | Date;
   createdBy: {
     name: string;

@@ -1,27 +1,24 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Test } from "@/types/Test";
+import { Student } from "@/types/Student";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment } from "react";
 
-export const columns: ColumnDef<Test>[] = [
+export const columns: ColumnDef<Student>[] = [
   {
     accessorKey: "id",
     header: "ID",
   },
   {
-    accessorKey: "title",
-    header: "Título",
+    accessorKey: "name",
+    header: "Nome",
   },
   {
     accessorKey: "assignedTo",
-    header: "Atribuído a",
+    header: "Turmas",
 
     cell: ({ row }) => {
       const classes = row.getValue("assignedTo") as string[];
@@ -33,33 +30,6 @@ export const columns: ColumnDef<Test>[] = [
           </span>
         );
       });
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Criado em",
-  },
-  {
-    accessorKey: "createdBy",
-    header: "Criado por",
-    cell: ({ row }) => {
-      const data = row.getValue("createdBy") as {
-        name: string;
-        avatar: string;
-      };
-
-      const firstName = data.name.split(" ")[0];
-      const avatar = data.avatar;
-
-      return (
-        <div className="flex items-center gap-3 text-sm">
-          <Avatar className="size-6">
-            <AvatarImage src={avatar} alt={firstName}></AvatarImage>
-            <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <span>{firstName}</span>
-        </div>
-      );
     },
   },
   {

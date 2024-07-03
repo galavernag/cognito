@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
@@ -50,11 +50,11 @@ export function DataTable<TData, TValue>({
   return (
     <section className="mt-6">
       <Input
-        placeholder="Pesquisar avaliação..."
+        placeholder="Pesquisar aluno..."
         type="text"
-        value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
         onChange={event =>
-          table.getColumn("title")?.setFilterValue(event.target.value)
+          table.getColumn("name")?.setFilterValue(event.target.value)
         }
         className="max-w-sm mb-5"
       />

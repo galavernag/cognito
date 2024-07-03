@@ -88,7 +88,7 @@ export default function School({ params }: { params: { slug: string } }) {
               <TableCell>{test.title}</TableCell>
               <TableCell>
                 <div className="flex gap-3 flex-wrap">
-                  {test.assignedto.map(schoolClass => (
+                  {test.assignedTo.map(schoolClass => (
                     <span className="bg-zinc-900 py-1 px-2 rounded-md font-medium text-xs">
                       {schoolClass}
                     </span>
