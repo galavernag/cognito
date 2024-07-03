@@ -119,6 +119,16 @@ importers:
         specifier: ^5
         version: 5.5.3
 
+  packages/database:
+    dependencies:
+      '@prisma/client':
+        specifier: 5.16.1
+        version: 5.16.1(prisma@5.16.1)
+    devDependencies:
+      prisma:
+        specifier: ^5.16.1
+        version: 5.16.1
+
 packages:
 
   '@alloc/quick-lru@5.2.0':
