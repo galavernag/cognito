@@ -37,7 +37,7 @@ export function SchoolGridItem({
             <span>{amountOfTeachers} professores</span>
           </div>
         </div>
-        <a href={`/schools/${slug}`}>
+        <a href={`/schools/${slug}/dashboard`}>
           <Button variant="outline" size="icon">
             <ArrowRightIcon className="size-4" />
           </Button>
