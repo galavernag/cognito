@@ -1,7 +1,11 @@
 import { BcryptService, JwtService, UserService } from "@cognito/services";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../dtos/models/user-model";
-import { CreateUserInput } from "../dtos/inputs/create-user-input";
+import {
+  CreateUserInput,
+  UpdateUserInput,
+  UserLoginInput,
+} from "../dtos/inputs/user";
 
 @Resolver()
 export class UserResolver {
@@ -27,8 +31,22 @@ export class UserResolver {
     return this.userService.getUsers();
   }
 
+  @Query(() => User)
+  async userLogin(@Arg("data", type => UserLoginInput) data: UserLoginInput) {
+    const response = await this.userService.login(data.email, data.password);
+
+    if (response.user) {
+      return {
+        ...response.user,
+        token: response.token,
+      };
+    }
+  }
+
   @Mutation(() => User)
-  async user(@Arg("data", type => CreateUserInput) data: CreateUserInput) {
+  async createUser(
+    @Arg("data", type => CreateUserInput) data: CreateUserInput
+  ) {
     const response = await this.userService.createUser(
       data.name,
       data.email,
@@ -39,6 +57,19 @@ export class UserResolver {
       return {
         ...response.user,
         token: response.token,
+      };
+    }
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Arg("data", type => UpdateUserInput) data: UpdateUserInput
+  ) {
+    const response = await this.userService.updateUser({ ...data });
+
+    if (response.user) {
+      return {
+        ...response.user,
       };
     }
   }
