@@ -1,12 +1,10 @@
 import { PrismaClient } from "@cognito/database";
+import { TokenInterface, CryptoInterface } from "@cognito/interfaces";
 
-import { TokenInterface } from "@cognito/interfaces";
-import { CryptoInterface } from "@cognito/interfaces";
-
-export class AuthService {
+export class UserService {
   private prisma: PrismaClient;
-  public tokenService: TokenInterface;
-  public cryptoService: CryptoInterface;
+  private tokenService: TokenInterface;
+  private cryptoService: CryptoInterface;
 
   private cryptoSalt = process.env.BCRYPT_SALT!;
   private tokenSecret = process.env.JWT_SECRET!;
@@ -63,7 +61,16 @@ export class AuthService {
     }
   }
 
-  async register(name: string, email: string, password: string) {
+  async getUsers() {
+    try {
+      const users = await this.prisma.user.findMany();
+      return users;
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
+
+  async createUser(name: string, email: string, password: string) {
     try {
       const user = await this.prisma.user.findUnique({
         where: {
@@ -96,7 +103,18 @@ export class AuthService {
         }
       );
       return {
+        user: newUser,
         token,
+      };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
+
+  async updateUser() {
+    try {
+      return {
+        error: "Not implemented",
       };
     } catch (error: any) {
       return { error: error.message };
