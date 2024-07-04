@@ -121,4 +121,24 @@ export class UserService {
       return { error: error.message };
     }
   }
+
+  async getUserById(id: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!user) {
+        return {
+          error: "User not found",
+        };
+      }
+
+      return { user };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
 }
