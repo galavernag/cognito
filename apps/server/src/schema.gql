@@ -10,19 +10,11 @@ input CreateUserInput {
 }
 
 type Mutation {
-  register(data: CreateUserInput!): User!
-  updateUser(data: UpdateUserInput!): User!
+  createUser(data: CreateUserInput!): User!
 }
 
 type Query {
-  login(data: UserLoginInput!): User!
-  privateInfo(id: String!): User!
-}
-
-input UpdateUserInput {
-  email: String!
-  name: String!
-  password: String!
+  getUser(id: String!): User!
 }
 
 type User {
@@ -30,9 +22,4 @@ type User {
   id: ID!
   name: String!
   token: String
-}
-
-input UserLoginInput {
-  email: String!
-  password: String!
 }

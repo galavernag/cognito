@@ -1,11 +1,12 @@
 import { BcryptService, JwtService, UserService } from "@cognito/services";
-import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../dtos/models/user-model";
 import {
   CreateUserInput,
   UpdateUserInput,
   UserLoginInput,
 } from "../dtos/inputs/user";
+import { GraphQLError } from "graphql";
 
 @Resolver()
 export class UserResolver {
@@ -27,55 +28,41 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  @Authorized()
-  async privateInfo(@Arg("id", type => String) id: string) {
+  async getUser(@Arg("id", type => String) id: string) {
     const response = await this.userService.getUserById(id);
 
-    if (response.user) {
-      return {
-        ...response.user,
-      };
+    if (!response.user) {
+      throw new GraphQLError("User not found", {
+        extensions: {
+          code: "NOT_FOUND",
+        },
+      });
     }
-  }
 
-  @Query(() => User)
-  async login(@Arg("data", type => UserLoginInput) data: UserLoginInput) {
-    const response = await this.userService.login(data.email, data.password);
-
-    if (response.user) {
-      return {
-        ...response.user,
-        token: response.token,
-      };
-    }
+    return response.user;
   }
 
   @Mutation(() => User)
-  async register(@Arg("data", type => CreateUserInput) data: CreateUserInput) {
+  async createUser(
+    @Arg(`data`, type => CreateUserInput) data: CreateUserInput
+  ) {
     const response = await this.userService.createUser(
       data.name,
       data.email,
       data.password
     );
 
-    if (response.user) {
-      return {
-        ...response.user,
-        token: response.token,
-      };
+    if (response.error) {
+      throw new GraphQLError(response.error.message, {
+        extensions: {
+          code: "BAD_REQUEST",
+        },
+      });
     }
-  }
 
-  @Mutation(() => User)
-  async updateUser(
-    @Arg("data", type => UpdateUserInput) data: UpdateUserInput
-  ) {
-    const response = await this.userService.updateUser({ ...data });
-
-    if (response.user) {
-      return {
-        ...response.user,
-      };
-    }
+    return {
+      ...response.user,
+      token: response.token,
+    };
   }
 }
