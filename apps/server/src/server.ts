@@ -1,6 +1,8 @@
+import "reflect-metadata";
+import "@cognito/database";
+
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import path from "node:path";
 import { UserResolver } from "./resolvers/user-resolver";

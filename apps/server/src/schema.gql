@@ -3,7 +3,23 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type Mutation {
+  user(data: CreateUserInput!): User!
+}
+
 type Query {
-  user(id: String!): String!
-  users: [String!]!
+  users: [User!]!
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String!
+  token: String!
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "tsx --watch src/server.ts"
+    "dev": "tsx --watch --env-file=./.env src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "@cognito/database": "workspace:^",
+    "@cognito/services": "workspace:^",
     "class-validator": "^0.14.1",
     "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
