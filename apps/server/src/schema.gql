@@ -16,7 +16,7 @@ type Mutation {
 
 type Query {
   login(data: UserLoginInput!): User!
-  privateInfo(id: String!): [User!]!
+  privateInfo(id: String!): User!
 }
 
 input UpdateUserInput {
@@ -29,7 +29,7 @@ type User {
   email: String!
   id: ID!
   name: String!
-  token: String!
+  token: String
 }
 
 input UserLoginInput {

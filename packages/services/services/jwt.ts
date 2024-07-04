@@ -1,5 +1,5 @@
 import { TokenInterface } from "@cognito/interfaces";
-import jwt from "jsonwebtoken";
+import jwt, { Jwt } from "jsonwebtoken";
 
 export class JwtService implements TokenInterface {
   sign(
@@ -10,11 +10,7 @@ export class JwtService implements TokenInterface {
     const signed = jwt.sign(payload, secretOrPrivateKey, options);
     return signed;
   }
-  verify(
-    token: string,
-    secretOrPublicKey: string,
-    options?: any
-  ): string | object {
+  verify(token: string, secretOrPublicKey: string, options?: any): Jwt {
     const decoded = jwt.verify(token, secretOrPublicKey, options);
     return decoded;
   }

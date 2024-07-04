@@ -1,5 +1,5 @@
 import { BcryptService, JwtService, UserService } from "@cognito/services";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../dtos/models/user-model";
 import {
   CreateUserInput,
@@ -26,7 +26,8 @@ export class UserResolver {
     );
   }
 
-  @Query(() => [User])
+  @Query(() => User)
+  @Authorized()
   async privateInfo(@Arg("id", type => String) id: string) {
     const response = await this.userService.getUserById(id);
 

@@ -11,6 +11,6 @@ export class User {
   @Field(type => String)
   email: string;
 
-  @Field(type => String)
+  @Field(type => String, { nullable: true })
   token: string;
 }
