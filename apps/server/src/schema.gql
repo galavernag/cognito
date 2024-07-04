@@ -10,13 +10,13 @@ input CreateUserInput {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
+  register(data: CreateUserInput!): User!
   updateUser(data: UpdateUserInput!): User!
 }
 
 type Query {
-  userLogin(data: UserLoginInput!): User!
-  users: [User!]!
+  login(data: UserLoginInput!): User!
+  privateInfo(id: String!): [User!]!
 }
 
 input UpdateUserInput {

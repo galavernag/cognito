@@ -27,12 +27,18 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  async users() {
-    return this.userService.getUsers();
+  async privateInfo(@Arg("id", type => String) id: string) {
+    const response = await this.userService.getUserById(id);
+
+    if (response.user) {
+      return {
+        ...response.user,
+      };
+    }
   }
 
   @Query(() => User)
-  async userLogin(@Arg("data", type => UserLoginInput) data: UserLoginInput) {
+  async login(@Arg("data", type => UserLoginInput) data: UserLoginInput) {
     const response = await this.userService.login(data.email, data.password);
 
     if (response.user) {
@@ -44,9 +50,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(
-    @Arg("data", type => CreateUserInput) data: CreateUserInput
-  ) {
+  async register(@Arg("data", type => CreateUserInput) data: CreateUserInput) {
     const response = await this.userService.createUser(
       data.name,
       data.email,
