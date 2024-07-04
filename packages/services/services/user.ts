@@ -54,6 +54,7 @@ export class UserService {
       );
 
       return {
+        user,
         token,
       };
     } catch (error: any) {
@@ -111,10 +112,10 @@ export class UserService {
     }
   }
 
-  async updateUser() {
+  async updateUser(data: any) {
     try {
       return {
-        error: "Not implemented",
+        user: { name: "Not implemented" },
       };
     } catch (error: any) {
       return { error: error.message };
