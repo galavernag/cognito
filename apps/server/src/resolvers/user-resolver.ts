@@ -1,5 +1,5 @@
 import { BcryptService, JwtService, UserService } from "@cognito/services";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, ID, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../dtos/models/user-model";
 import {
   CreateUserInput,
@@ -28,6 +28,27 @@ export class UserResolver {
   }
 
   @Query(() => User)
+  async generateToken(
+    @Arg("data", type => UserLoginInput) data: UserLoginInput
+  ) {
+    const response = await this.userService.login(data.email, data.password);
+
+    if (response.error) {
+      throw new GraphQLError(response.error.message, {
+        extensions: {
+          code: "BAD_REQUEST",
+        },
+      });
+    }
+
+    return {
+      ...response.user,
+      token: response.token,
+    };
+  }
+
+  @Query(() => User)
+  @Authorized()
   async getUser(@Arg("id", type => String) id: string) {
     const response = await this.userService.getUserById(id);
 
@@ -43,6 +64,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @Authorized()
   async createUser(
     @Arg(`data`, type => CreateUserInput) data: CreateUserInput
   ) {

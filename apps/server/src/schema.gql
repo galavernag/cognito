@@ -14,6 +14,7 @@ type Mutation {
 }
 
 type Query {
+  generateToken(data: UserLoginInput!): User!
   getUser(id: String!): User!
 }
 
@@ -22,4 +23,9 @@ type User {
   id: ID!
   name: String!
   token: String
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
 }

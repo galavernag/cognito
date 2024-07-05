@@ -1,4 +1,4 @@
-import { PrismaClient } from "@cognito/database";
+import { PrismaClient, User } from "@cognito/database";
 import { TokenInterface, CryptoInterface } from "@cognito/interfaces";
 
 export class UserService {
@@ -112,11 +112,16 @@ export class UserService {
     }
   }
 
-  async updateUser(data: any) {
+  async updateUser(id: string, data: Partial<User>) {
     try {
-      return {
-        user: { name: "Not implemented" },
-      };
+      const updatedUser = await this.prisma.user.update({
+        where: {
+          id,
+        },
+        data,
+      });
+
+      return { user: updatedUser };
     } catch (error: any) {
       return { error: error.message };
     }
