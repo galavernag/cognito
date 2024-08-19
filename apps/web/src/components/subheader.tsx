@@ -14,7 +14,7 @@ function Link({ href, icon, title }: LinkProps) {
   const pathname = usePathname();
   const resource = href.split("/");
 
-  const isActive = pathname.includes(resource[3]);
+  const isActive = pathname.includes(resource[4]);
 
   return (
     <NextLink
@@ -28,26 +28,26 @@ function Link({ href, icon, title }: LinkProps) {
   );
 }
 
-export function Subheader({ slug }: { slug: string }) {
+export function Subheader({ id }: { id: string }) {
   return (
     <header className="flex gap-3 px-32 items-center border-b border-zinc-800 pb-4">
       <Link
-        href={`/schools/${slug}/dashboard`}
+        href={`/app/schools/${id}/dashboard`}
         icon={<PiGridFourBold />}
         title="Dashboard"
       />
       <Link
-        href={`/schools/${slug}/tests`}
+        href={`/app/schools/${id}/tests`}
         icon={<PiTestTube />}
         title="Avaliaçoes"
       />
       <Link
-        href={`/schools/${slug}/students`}
+        href={`/app/schools/${id}/students`}
         icon={<PiUsers />}
         title="Alunos"
       />
       <Link
-        href={`/schools/${slug}/settings/general`}
+        href={`/app/schools/${id}/settings/general`}
         icon={<PiGear />}
         title="Configurações"
       />

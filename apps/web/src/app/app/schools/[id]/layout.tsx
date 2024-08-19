@@ -5,14 +5,14 @@ import { PropsWithChildren } from "react";
 export default function SchoolRootLayout({
   children,
   params,
-}: PropsWithChildren<{ params: { slug: string } }>) {
+}: PropsWithChildren<{ params: { id: string } }>) {
   return (
     <main>
       <div className="px-32 py-10">
         <Header />
       </div>
 
-      <Subheader slug={params.slug} />
+      <Subheader id={params.id} />
       {children}
     </main>
   );
