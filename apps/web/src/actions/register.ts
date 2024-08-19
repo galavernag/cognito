@@ -5,7 +5,9 @@ import { env } from "@/lib/env";
 import { z } from "zod";
 
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import * as jose from "jose";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function register(data: unknown) {
   const schema = z.object({
@@ -35,10 +37,27 @@ export async function register(data: unknown) {
     },
   });
 
-  const token = jwt.sign({ id: user.id }, env.JWT_SECRET, { expiresIn: "7d" });
+  const token = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("72h")
+    .setSubject(user.id)
+    .sign(env.JWT_SECRET);
 
-  return {
-    user,
-    token,
-  };
+  const cookiesStore = cookies();
+
+  cookiesStore.set("cognito.token", token, {
+    expires: Date.now() + 24 * 60 * 60 * 1000 * 7, // 7 days
+    secure: true,
+    httpOnly: true,
+    path: "/",
+    sameSite: "strict",
+  });
+  cookiesStore.set("cognito.userId", user.id, {
+    expires: Date.now() + 24 * 60 * 60 * 1000 * 7, // 7 days
+    secure: true,
+    httpOnly: true,
+    path: "/",
+    sameSite: "strict",
+  });
+  redirect("/app");
 }

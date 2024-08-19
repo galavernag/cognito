@@ -37,8 +37,15 @@ export async function login(data: unknown) {
 
   const cookiesStore = cookies();
 
-  cookiesStore.delete("cognito.token");
   cookiesStore.set("cognito.token", token, {
+    expires: Date.now() + 24 * 60 * 60 * 1000 * 7, // 7 days
+    secure: true,
+    httpOnly: true,
+    path: "/",
+    sameSite: "strict",
+  });
+
+  cookiesStore.set("cognito.userId", user.id, {
     expires: Date.now() + 24 * 60 * 60 * 1000 * 7, // 7 days
     secure: true,
     httpOnly: true,
