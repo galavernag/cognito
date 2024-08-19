@@ -1,8 +1,6 @@
-import { list_schools } from "@/actions/list-schools";
+import { list_schools } from "@/actions/school/list-schools";
 import { Header } from "@/components/header";
 import { SchoolGrid, SchoolGridItem } from "@/components/school-grid";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
 import { JoinInSchoolButton } from "./_components/JoinInSchoolButton";
 

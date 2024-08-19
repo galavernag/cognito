@@ -4,7 +4,7 @@ import CognitoLogo from "@/assets/logo.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { get_user } from "@/actions/get-user";
+import { get_user } from "@/actions/user/get-user";
 
 export async function Header() {
   const userId = cookies().get("cognito.userId")?.value!;

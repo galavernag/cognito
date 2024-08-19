@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { env } from "./lib/env";
 import type { NextRequest } from "next/server";
 import * as jose from "jose";
-import { get_user } from "./actions/get-user";
+import { get_user } from "./actions/user/get-user";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
