@@ -6,13 +6,10 @@ import { login } from "@/actions/login";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { setCookie } from "cookies-next";
-import { useUser } from "@/contexts/user-context";
 
 export function LoginForm() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-
-  const { setUser } = useUser();
 
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
