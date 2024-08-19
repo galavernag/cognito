@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { LoginForm } from "../_components/LoginForm";
 import Link from "next/link";
-import { FaGoogle } from "react-icons/fa";
 
 export default function LoginPage() {
   return (
@@ -18,10 +18,7 @@ export default function LoginPage() {
           </span>
         </div>
         <div className="w-full pt-5 border-t">
-          <Button variant="outline" className="w-full flex items-center gap-2">
-            <FaGoogle />
-            Entrar com o Google
-          </Button>
+          <LoginForm />
         </div>
       </div>
       <footer className="max-w-md text-center text-zinc-500 text-sm mt-5">

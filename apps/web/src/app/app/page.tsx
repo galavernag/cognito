@@ -28,7 +28,7 @@ export default function Home() {
           </header>
 
           <SchoolGrid>
-            {schools.map(school => (
+            {schools.map((school) => (
               <SchoolGridItem
                 key={school.slug}
                 title={school.name}
