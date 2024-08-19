@@ -4,6 +4,7 @@ import { SchoolGrid, SchoolGridItem } from "@/components/school-grid";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
+import { JoinInSchoolButton } from "./_components/JoinInSchoolButton";
 
 export default async function Home() {
   const userId = await cookies().get("cognito.userId")?.value!;
@@ -21,14 +22,7 @@ export default async function Home() {
               <span className="text-zinc-600">Total de escolas: 10</span>
             </div>
 
-            <Button
-              variant="badge"
-              size="badge"
-              className="flex items-center gap-2"
-            >
-              <PlusIcon className="size-4" />
-              <span>Adicionar uma nova escola</span>
-            </Button>
+            <JoinInSchoolButton />
           </header>
 
           {schools ? (
