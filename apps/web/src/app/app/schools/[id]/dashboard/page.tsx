@@ -1,3 +1,4 @@
+import { get_resume } from "@/actions/school/get-resume";
 import { Header } from "@/components/header";
 import { Subheader } from "@/components/subheader";
 import { Avatar } from "@/components/ui/avatar";
@@ -23,15 +24,20 @@ import {
   PiUsers,
 } from "react-icons/pi";
 
-export default function School({ params }: { params: { slug: string } }) {
+export default async function School({ params }: { params: { id: string } }) {
+  const { countOfFinishedTests, countOfNotFinishedTests, school } =
+    await get_resume(params.id);
+
   return (
     <section className="px-32 mt-8 space-y-10">
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-2 gap-10">
         <div className="border-[1px] rounded-md border-zinc-800">
           <header className="flex p-5 bg-[#18181B]/20 justify-between items-start">
             <div className="space-y-2">
               <h3 className="text-sm font-regular">Avaliações pendentes</h3>
-              <span className="text-2xl font-medium">300</span>
+              <span className="text-2xl font-medium">
+                {countOfNotFinishedTests}
+              </span>
             </div>
           </header>
         </div>
@@ -40,18 +46,20 @@ export default function School({ params }: { params: { slug: string } }) {
           <header className="flex p-5 bg-[#18181B]/20 justify-between items-start">
             <div className="space-y-2">
               <h3 className="text-sm font-regular">Avaliações finalizadas</h3>
-              <span className="text-2xl font-medium">300</span>
+              <span className="text-2xl font-medium">
+                {countOfFinishedTests}
+              </span>
             </div>
           </header>
         </div>
-        <div className="border-[1px] rounded-md border-zinc-800">
+        {/* <div className="border-[1px] rounded-md border-zinc-800">
           <header className="flex p-5 bg-[#18181B]/20 justify-between items-start">
             <div className="space-y-2">
               <h3 className="text-sm font-regular">Avaliações pendentes</h3>
               <span className="text-2xl font-medium">300</span>
             </div>
           </header>
-        </div>
+        </div> */}
       </div>
 
       <header className="flex flex-col gap-3 w-min">
@@ -82,7 +90,7 @@ export default function School({ params }: { params: { slug: string } }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tests.map(test => (
+          {/* {tests.map(test => (
             <TableRow key={test.id}>
               <TableCell className="font-medium">{test.id}</TableCell>
               <TableCell>{test.title}</TableCell>
@@ -112,7 +120,7 @@ export default function School({ params }: { params: { slug: string } }) {
                 </Button>
               </TableCell>
             </TableRow>
-          ))}
+          ))} */}
         </TableBody>
       </Table>
     </section>

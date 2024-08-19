@@ -6,7 +6,7 @@ import Link from "next/link";
 
 interface SchoolGridItemProps {
   title: string;
-  slug: string;
+  id: string;
   amountOfStudents: number;
   amountOfTeachers: number;
   lastActivity: {
@@ -20,7 +20,7 @@ interface SchoolGridItemProps {
 
 export function SchoolGridItem({
   title,
-  slug,
+  id,
   amountOfStudents,
   amountOfTeachers,
   lastActivity,
@@ -38,7 +38,7 @@ export function SchoolGridItem({
             <span>{amountOfTeachers} professores</span>
           </div>
         </div>
-        <Link href={`/schools/${slug}/dashboard`}>
+        <Link href={`/app/schools/${id}/dashboard`}>
           <Button variant="outline" size="icon">
             <ArrowRightIcon className="size-4" />
           </Button>

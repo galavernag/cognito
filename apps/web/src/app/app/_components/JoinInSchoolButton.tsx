@@ -1,5 +1,6 @@
 "use client";
 
+import { join_in_school } from "@/actions/school/join-in-school";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,14 +16,25 @@ import { Label } from "@/components/ui/label";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { FormEvent, useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
+import { toast } from "sonner";
 
-export function JoinInSchoolButton() {
+export function JoinInSchoolButton({ userId }: { userId: string }) {
   const [inviteCode, setInviteCode] = useState<string>();
   async function handleJoinInSchoolButton(event: FormEvent) {
     event.preventDefault();
 
+    console.log(inviteCode);
     if (!inviteCode) {
       return;
+    }
+
+    try {
+      await join_in_school(inviteCode, userId);
+      toast.success("Código utilizado com sucesso.");
+    } catch (error: any) {
+      toast.error("Houve um erro ao tentar usar o código.", {
+        description: error.message,
+      });
     }
   }
 

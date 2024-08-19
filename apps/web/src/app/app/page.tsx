@@ -5,9 +5,9 @@ import { cookies } from "next/headers";
 import { JoinInSchoolButton } from "./_components/JoinInSchoolButton";
 
 export default async function Home() {
-  const userId = await cookies().get("cognito.userId")?.value!;
+  const userId = cookies().get("cognito.userId")?.value!;
   const schools = await list_schools(userId);
-  console.log(schools);
+
   return (
     <main className="px-32 py-10">
       <Header />
@@ -20,7 +20,7 @@ export default async function Home() {
               <span className="text-zinc-600">Total de escolas: 10</span>
             </div>
 
-            <JoinInSchoolButton />
+            <JoinInSchoolButton userId={userId} />
           </header>
 
           {schools ? (
@@ -38,7 +38,7 @@ export default async function Home() {
                     },
                     action: "",
                   }}
-                  slug={school.name.toLowerCase().replaceAll(" ", "-")}
+                  id={school.id}
                 />
               ))}
             </SchoolGrid>
