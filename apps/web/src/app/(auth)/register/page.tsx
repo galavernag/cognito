@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { FaGoogle } from "react-icons/fa";
+import { RegisterForm } from "../_components/RegisterForm";
+import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get("cognito.token");
+
+  if (token) {
+    redirect("/overview");
+  }
   return (
     <aside className="p-5 flex flex-col items-center justify-between">
       <header className="self-end">
@@ -18,10 +26,7 @@ export default function LoginPage() {
           </span>
         </div>
         <div className="w-full pt-5 border-t">
-          <Button variant="outline" className="w-full flex items-center gap-2">
-            <FaGoogle />
-            Registrar-se com o Google
-          </Button>
+          <RegisterForm />
         </div>
       </div>
       <footer className="max-w-md text-center text-zinc-500 text-sm mt-5">
