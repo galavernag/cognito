@@ -38,6 +38,7 @@ export async function register(data: unknown) {
   const token = jwt.sign({ id: user.id }, env.JWT_SECRET, { expiresIn: "7d" });
 
   return {
+    user,
     token,
   };
 }

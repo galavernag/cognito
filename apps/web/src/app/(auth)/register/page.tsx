@@ -11,6 +11,7 @@ export default function LoginPage() {
   if (token) {
     redirect("/overview");
   }
+
   return (
     <aside className="p-5 flex flex-col items-center justify-between">
       <header className="self-end">

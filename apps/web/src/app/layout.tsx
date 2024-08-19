@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { UserContextProvider } from "@/contexts/user-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +27,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster />
-          {children}
+          <UserContextProvider>
+            <Toaster />
+            {children}
+          </UserContextProvider>
         </ThemeProvider>
       </body>
     </html>

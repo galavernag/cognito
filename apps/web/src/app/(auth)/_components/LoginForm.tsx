@@ -2,22 +2,25 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { register } from "@/actions/register";
+import { login } from "@/actions/login";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
+import { setCookie } from "cookies-next";
+import { useUser } from "@/contexts/user-context";
 
-export function RegisterForm() {
-  const [name, setName] = useState<string>();
+export function LoginForm() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+
+  const { setUser } = useUser();
 
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
     try {
-      const response = await register({ name, email, password });
+      const response = await login({ email, password });
 
-      toast.success("Usuário registrado com sucesso.");
+      toast.success("Login realizado com sucesso.");
     } catch (error) {
       toast.error("Ocorreu um erro ao realizar o registro.");
     }
@@ -25,18 +28,6 @@ export function RegisterForm() {
 
   return (
     <form className="space-y-5" onSubmit={handleRegister}>
-      <div className="space-y-3">
-        <Label htmlFor="name">Nome Completo</Label>
-        <Input
-          name="name"
-          type="text"
-          required
-          placeholder="Albert Einstein"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-
       <div className="space-y-3">
         <Label htmlFor="email">E-mail</Label>
         <Input
@@ -61,7 +52,7 @@ export function RegisterForm() {
         />
       </div>
 
-      <Button className="w-full">Registrar</Button>
+      <Button className="w-full">Entrar</Button>
     </form>
   );
 }

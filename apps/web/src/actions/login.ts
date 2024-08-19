@@ -2,43 +2,48 @@
 
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import * as jose from "jose";
+import { cookies } from "next/headers";
 
-export async function login(data: FormData) {
+export async function login(data: unknown) {
   const schema = z.object({
     email: z.string().email(),
     password: z.string(),
   });
 
-  const { email, password } = schema.parse({
-    email: data.get("email"),
-    password: data.get("password"),
-  });
+  const { email, password } = schema.parse(data);
 
   const user = await db.user.findUnique({ where: { email } });
 
   if (!user) {
-    return {
-      code: 404,
-      message: "User not found.",
-    };
+    throw new Error("User not found.");
   }
 
   const verified = bcrypt.compare(password, user.password!);
 
   if (!verified) {
-    return {
-      code: 401,
-      message: "Not authorized.",
-    };
+    throw new Error("Not authorized.");
   }
 
-  const token = jwt.sign({ id: user.id }, env.JWT_SECRET, { expiresIn: "7d" });
+  const token = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("72h")
+    .setSubject(user.id)
+    .sign(env.JWT_SECRET);
 
-  return {
-    token,
-  };
+  const cookiesStore = cookies();
+
+  cookiesStore.delete("cognito.token");
+  cookiesStore.set("cognito.token", token, {
+    expires: Date.now() + 24 * 60 * 60 * 1000 * 7, // 7 days
+    secure: true,
+    httpOnly: true,
+    path: "/",
+    sameSite: "strict",
+  });
+  redirect("/app");
 }
