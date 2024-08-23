@@ -3,6 +3,11 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { PropsWithChildren } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { School, Student, User } from "@prisma/client";
+
+interface SchoolGridProps {
+  schools: Array<School & { students: Student[]; users: User[] }>;
+}
 
 interface SchoolGridItemProps {
   title: string;
@@ -62,10 +67,27 @@ export function SchoolGridItem({
   );
 }
 
-export function SchoolGrid({ children }: PropsWithChildren) {
+export function SchoolGrid({ schools }: SchoolGridProps) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-      {children}
+      {schools.map((school) => {
+        return (
+          <SchoolGridItem
+            key={school.id}
+            id={school.id}
+            title={school.name}
+            amountOfStudents={school.students.length}
+            amountOfTeachers={school.users.length}
+            lastActivity={{
+              action: "",
+              by: {
+                avatar: "",
+                name: "Guilherme",
+              },
+            }}
+          />
+        );
+      })}
     </div>
   );
 }

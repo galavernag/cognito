@@ -40,7 +40,7 @@ export function JoinInSchoolButton({ userId }: { userId: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           variant="badge"
           size="badge"

@@ -1,28 +1,15 @@
 import { get_resume } from "@/actions/school/get-resume";
-import { Header } from "@/components/header";
-import { Subheader } from "@/components/subheader";
-import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { tests } from "@/lib/data";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import {
-  PiGear,
-  PiGridFourBold,
-  PiPlus,
-  PiTestTube,
-  PiUsers,
-} from "react-icons/pi";
+import { PiPlus } from "react-icons/pi";
 
 export default async function School({ params }: { params: { id: string } }) {
   const { countOfFinishedTests, countOfNotFinishedTests, school } =
