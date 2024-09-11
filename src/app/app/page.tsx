@@ -9,6 +9,8 @@ export default async function Home() {
   const userId = cookies().get("cognito.userId")?.value!;
   const schools = await list_schools(userId);
 
+  const numberOfRegisteredSchools = schools?.length ? schools.length : 0;
+
   return (
     <main className="px-32 py-10">
       <Header />
@@ -19,16 +21,20 @@ export default async function Home() {
             <div className="flex flex-col items-start">
               <h2 className="text-2xl font-bold text-zinc-50">Escolas</h2>
               <span className="text-zinc-600">
-                Total de escolas: {schools.length}
+                Total de escolas: {numberOfRegisteredSchools}
               </span>
             </div>
 
             <JoinInSchoolButton userId={userId} />
           </header>
 
-          <Suspense>
-            <SchoolGrid schools={schools} />
-          </Suspense>
+          {!schools ? (
+            <span>Você não está registrado em nenhuma escola.</span>
+          ) : (
+            <Suspense>
+              <SchoolGrid schools={schools} />
+            </Suspense>
+          )}
         </div>
         <aside>
           <h3 className="text-md text-zinc-300">Atividade recente</h3>
