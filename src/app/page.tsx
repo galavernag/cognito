@@ -2,14 +2,10 @@ import CognitoLogo from "@/assets/logo.svg";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +41,14 @@ export default function Landing() {
           </NavigationMenu>
         </nav>
 
-        <Button>Entrar</Button>
+        <div className="space-x-5">
+          <Link href="/login">
+            <Button>Entrar</Button>
+          </Link>
+          <Link href="/register">
+            <Button variant="secondary">Cadastrar-se</Button>
+          </Link>
+        </div>
       </header>
     </main>
   );
