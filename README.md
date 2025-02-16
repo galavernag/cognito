@@ -22,7 +22,7 @@ Cognito é um SaaS desenvolvido como Prova de Conceito (PoC) para estudos, ofere
 
 1. Clone este repositório:
    ```sh
-   git clone https://github.com/seu-usuario/cognito.git
+   git clone https://github.com/galavernag/cognito.git
    cd cognito
    ```
 2. Instale as dependências:
