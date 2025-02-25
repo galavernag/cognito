@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { z } from "zod";
 
-import bcrypt from "bcrypt";
+import argon from "argon2";
 import * as jose from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -26,8 +26,7 @@ export async function register(data: unknown) {
     throw new Error("User already exists");
   }
 
-  const salt = await bcrypt.genSalt(env.SALT_ROUNDS);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const hashedPassword = await argon.hash(password);
 
   const user = await db.user.create({
     data: {
